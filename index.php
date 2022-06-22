@@ -1,3 +1,18 @@
+<?php 
+    if (!empty($_POST['amount'])) {
+        $amount = $_POST['amount'];
+        $fromCurrency = $_POST['fromCurrency'];
+        $toCurrency = $_POST['toCurrency'];
+    }
+
+    function euroToRupiah() {
+        echo "€" . number_format($_POST['amount']) . " = " . number_format($_POST['amount']*16233.76) . " IDR";
+    }
+    function dollarToRupiah() {
+        echo "US$" . number_format($_POST['amount']) . " = " . number_format($_POST['amount']*14271.55) . " IDR";
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,39 +23,33 @@
 </head>
 <body>    
     <h1>Welcome to Indonesia! </h1>
-    <h3>Calculate your currency to the local currency here</h3>
+    <h3>Calculate your currency to indonesian rupiah here</h3>
     <form action="" method="post">
-
-        <label for="number">The amount you want to change: </label>
-        <input id="number" name="number" placeholder="Enter your amount here" type="number">
+        <label for="amount">The amount you want to change: </label>
+        <input id="amount" name="amount" placeholder="Enter your amount here" type="number">
         <br><br>
-
-        <label>From:
-            <input list="fromCurrency" name="fromCurrency">
-        </label>
-        <datalist id="fromCurrency">
-            <option value="euro">
-            <option value="dollar">
-        </datalist>
-        <label>To:    
-            <input list="toCurrency" name="toCurrency">
-        </label>
-        <datalist id="toCurrency">
-            <option value="Indonesian Rupiah">
-        </datalist>
+        <label for="fromCurrency">From: </label>
+        <select id="fromCurrency" name="fromCurrency">
+            <option <?php if (!empty($fromCurrency)) { if ($fromCurrency == "euro") { ?> selected="true" <?php }} ?> value="euro">euro</option>
+            <option <?php if (!empty($fromCurrency)) { if ($fromCurrency == "dollar") { ?> selected="true" <?php }} ?> value="dollar">dollar</option>
+        </select>
+        <label for="toCurrency">To: </label>
+        <select id="toCurrency" name="toCurrency" id="toCurrency">
+            <option value="Indonesian Rupiah">Indonesian Rupiah</option>
+        </select>
         <br><br>
         <input type="submit">
         <br><br>
     </form>
     <?php 
-        if (empty($_POST['fromCurrency']) || empty($_POST['toCurrency']) || empty($_POST['number'])) {
+        if (empty($fromCurrency) || empty($toCurrency) || empty($amount)) {
         return;
         }
-        else if ($_POST['fromCurrency'] == "euro" && $_POST['toCurrency'] == "Indonesian Rupiah") {
-            echo number_format($_POST['number']) . " Euro = " . number_format($_POST['number']*16233.76) . " Indonesian Rupiah";
+        else if ($fromCurrency == "euro" && $toCurrency == "Indonesian Rupiah") {
+            euroToRupiah();
         }
-        else if ($_POST['fromCurrency'] == "dollar" && $_POST['toCurrency'] == "Indonesian Rupiah") {
-            echo number_format($_POST['number']) . " Dollar = " . number_format($_POST['number']*14271.55) . " Indonesian Rupiah";
+        else if ($fromCurrency == "dollar" && $toCurrency == "Indonesian Rupiah") {
+            dollarToRupiah();
         }
     ?>
 
